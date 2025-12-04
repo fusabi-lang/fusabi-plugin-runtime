@@ -1,0 +1,45 @@
+[package]
+name = "fusabi-plugin-runtime"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.75"
+description = "Plugin loader, hot-reload, and runtime for Fusabi plugins with manifest validation and capability enforcement"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/fusabi-lang/fusabi-plugin-runtime"
+documentation = "https://docs.rs/fusabi-plugin-runtime"
+readme = "README.md"
+keywords = ["fusabi", "plugins", "hot-reload", "runtime", "scripting"]
+categories = ["development-tools", "api-bindings", "concurrency"]
+
+[features]
+default = ["serde"]
+serde = ["dep:serde", "dep:serde_json", "dep:toml"]
+watch = ["dep:notify"]
+metrics-prometheus = ["dep:prometheus"]
+
+[dependencies]
+fusabi-host = { path = "../fusabi-host", features = ["serde-support"] }
+thiserror = "1.0"
+tracing = "0.1"
+parking_lot = "0.12"
+dashmap = "5.5"
+
+# Optional dependencies
+serde = { version = "1.0", features = ["derive"], optional = true }
+serde_json = { version = "1.0", optional = true }
+toml = { version = "0.8", optional = true }
+notify = { version = "6.1", optional = true }
+prometheus = { version = "0.13", optional = true }
+
+[dev-dependencies]
+tempfile = "3.10"
+tokio = { version = "1.0", features = ["rt-multi-thread", "macros", "time", "fs"] }
+tracing-subscriber = "0.3"
+
+[[example]]
+name = "plugin_loader"
+required-features = ["serde"]
+
+[[example]]
+name = "hot_reload"
+required-features = ["serde", "watch"]
