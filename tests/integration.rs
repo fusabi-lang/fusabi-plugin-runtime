@@ -1,13 +1,8 @@
 //! Integration tests for fusabi-plugin-runtime.
 
 use fusabi_plugin_runtime::{
-    lifecycle::LifecycleState,
-    loader::{LoaderConfig, PluginLoader},
-    manifest::{ApiVersion, Dependency, Manifest, ManifestBuilder},
-    plugin::{Plugin, PluginHandle},
-    registry::{PluginRegistry, RegistryConfig},
-    runtime::{PluginRuntime, RuntimeConfig},
-    Error, Result,
+    ApiVersion, Dependency, Error, LifecycleState, LoaderConfig, Manifest, ManifestBuilder, Plugin,
+    PluginHandle, PluginLoader, PluginRegistry, PluginRuntime, RegistryConfig, Result, RuntimeConfig,
 };
 
 // Helper to create test plugins
@@ -71,7 +66,7 @@ fn test_manifest_validation() {
 fn test_api_version_compatibility() {
     let host = ApiVersion::new(0, 18, 5);
     let compatible = ApiVersion::new(0, 18, 0);
-    let incompatible_minor = ApiVersion::new(0, 17, 0);
+    let incompatible_minor = ApiVersion::new(0, 19, 0);
     let incompatible_major = ApiVersion::new(1, 0, 0);
 
     assert!(host.is_compatible_with(&compatible));

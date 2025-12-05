@@ -3,7 +3,7 @@
 use std::path::{Path, PathBuf};
 
 use fusabi_host::{
-    compile::{compile_source, compile_file, CompileOptions},
+    compile_source, compile_file, CompileOptions,
     EngineConfig, Capabilities, Limits,
 };
 
@@ -217,7 +217,7 @@ impl PluginLoader {
         let bytecode = std::fs::read(&bytecode_path)?;
 
         // Validate bytecode
-        let metadata = fusabi_host::compile::validate_bytecode(&bytecode)?;
+        let metadata = fusabi_host::validate_bytecode(&bytecode)?;
 
         // Create manifest from bytecode metadata
         let name = bytecode_path
@@ -262,7 +262,7 @@ impl PluginLoader {
 
     fn compile_and_load(&self, plugin: &Plugin, source_path: &Path) -> Result<()> {
         let compile_result = compile_file(source_path, &self.config.compile_options)
-            .map_err(|e| Error::Compilation(e.to_string()))?;
+            .map_err(|e: fusabi_host::Error| Error::Compilation(e.to_string()))?;
 
         plugin.set_bytecode(compile_result.bytecode);
 
@@ -278,7 +278,7 @@ impl PluginLoader {
         let bytecode = std::fs::read(bytecode_path)?;
 
         // Validate
-        fusabi_host::compile::validate_bytecode(&bytecode)?;
+        fusabi_host::validate_bytecode(&bytecode)?;
 
         plugin.set_bytecode(bytecode);
         Ok(())

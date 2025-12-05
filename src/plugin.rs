@@ -252,12 +252,12 @@ impl Plugin {
         };
 
         // Execute
+        inner.info.invocation_count += 1;
+
         let engine = inner
             .engine
             .as_ref()
             .ok_or_else(|| Error::invalid_state("engine initialized", "no engine"))?;
-
-        inner.info.invocation_count += 1;
 
         engine
             .execute(&call_expr)
