@@ -1,6 +1,6 @@
 [package]
 name = "fusabi-plugin-runtime"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 rust-version = "1.75"
 description = "Plugin loader, hot-reload, and runtime for Fusabi plugins with manifest validation and capability enforcement"
