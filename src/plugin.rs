@@ -251,13 +251,14 @@ impl Plugin {
             format!("{}({})", function, args_str.join(", "))
         };
 
+        // Increment invocation count before borrowing engine
+        inner.info.invocation_count += 1;
+
         // Execute
         let engine = inner
             .engine
             .as_ref()
             .ok_or_else(|| Error::invalid_state("engine initialized", "no engine"))?;
-
-        inner.info.invocation_count += 1;
 
         engine
             .execute(&call_expr)

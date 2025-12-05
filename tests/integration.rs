@@ -1,13 +1,13 @@
 //! Integration tests for fusabi-plugin-runtime.
 
 use fusabi_plugin_runtime::{
-    lifecycle::LifecycleState,
-    loader::{LoaderConfig, PluginLoader},
-    manifest::{ApiVersion, Dependency, Manifest, ManifestBuilder},
-    plugin::{Plugin, PluginHandle},
-    registry::{PluginRegistry, RegistryConfig},
-    runtime::{PluginRuntime, RuntimeConfig},
-    Error, Result,
+    LifecycleState,
+    LoaderConfig, PluginLoader,
+    ApiVersion, Dependency, Manifest, ManifestBuilder,
+    Plugin, PluginHandle, PluginInfo,
+    PluginRegistry, RegistryConfig,
+    PluginRuntime, RuntimeConfig,
+    Error,
 };
 
 // Helper to create test plugins
@@ -70,12 +70,18 @@ fn test_manifest_validation() {
 #[test]
 fn test_api_version_compatibility() {
     let host = ApiVersion::new(0, 18, 5);
-    let compatible = ApiVersion::new(0, 18, 0);
-    let incompatible_minor = ApiVersion::new(0, 17, 0);
+    let compatible_same_minor = ApiVersion::new(0, 18, 0);
+    let compatible_older_minor = ApiVersion::new(0, 17, 0); // backward compatible
+    let incompatible_newer_minor = ApiVersion::new(0, 19, 0); // requires newer host
     let incompatible_major = ApiVersion::new(1, 0, 0);
 
-    assert!(host.is_compatible_with(&compatible));
-    assert!(!host.is_compatible_with(&incompatible_minor));
+    // Same minor version - compatible
+    assert!(host.is_compatible_with(&compatible_same_minor));
+    // Older minor version - backward compatible (plugin for 0.17 works on 0.18 host)
+    assert!(host.is_compatible_with(&compatible_older_minor));
+    // Newer minor version - incompatible (plugin for 0.19 won't work on 0.18 host)
+    assert!(!host.is_compatible_with(&incompatible_newer_minor));
+    // Different major version - incompatible
     assert!(!host.is_compatible_with(&incompatible_major));
 }
 
@@ -259,7 +265,7 @@ mod serde_tests {
 #[cfg(feature = "watch")]
 mod watch_tests {
     use super::*;
-    use fusabi_plugin_runtime::watcher::{PluginWatcher, WatchConfig, WatchEvent};
+    use fusabi_plugin_runtime::{PluginWatcher, WatchConfig, WatchEvent};
     use std::path::PathBuf;
     use std::time::Duration;
 

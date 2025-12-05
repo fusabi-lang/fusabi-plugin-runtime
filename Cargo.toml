@@ -18,7 +18,7 @@ watch = ["dep:notify"]
 metrics-prometheus = ["dep:prometheus"]
 
 [dependencies]
-fusabi-host = { path = "../fusabi-host", features = ["serde-support"] }
+fusabi-host = { git = "https://github.com/fusabi-lang/fusabi-host", rev = "cbbab109659b59beb7fa9f3b43e4952192ac1228", features = ["serde-support"] }
 thiserror = "1.0"
 tracing = "0.1"
 parking_lot = "0.12"

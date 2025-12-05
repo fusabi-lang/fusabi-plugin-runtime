@@ -1,10 +1,9 @@
 //! Example demonstrating plugin loading and execution.
 
 use fusabi_plugin_runtime::{
-    loader::{LoaderConfig, PluginLoader},
-    manifest::{ApiVersion, ManifestBuilder},
-    registry::{PluginRegistry, RegistryConfig},
-    Capabilities, Limits, Value,
+    LoaderConfig, PluginLoader,
+    ApiVersion, ManifestBuilder,
+    PluginRegistry, RegistryConfig,
 };
 
 fn main() -> fusabi_plugin_runtime::Result<()> {
