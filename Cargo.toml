@@ -1,6 +1,6 @@
 [package]
 name = "fusabi-plugin-runtime"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 rust-version = "1.75"
 description = "Plugin loader, hot-reload, and runtime for Fusabi plugins with manifest validation and capability enforcement"
@@ -18,7 +18,7 @@ watch = ["dep:notify"]
 metrics-prometheus = ["dep:prometheus"]
 
 [dependencies]
-fusabi-host = { path = "../fusabi-host", features = ["serde-support"] }
+fusabi-host = { version = "0.1.0", features = ["serde-support"] }
 thiserror = "1.0"
 tracing = "0.1"
 parking_lot = "0.12"

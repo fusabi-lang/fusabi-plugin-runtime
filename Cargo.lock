@@ -106,6 +106,8 @@ dependencies = [
 [[package]]
 name = "fusabi-host"
 version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "46e16761dcaeddc0ec696ac266c20aae8f780948d2e9ba9d461863b233462d2a"
 dependencies = [
  "base64",
  "crossbeam-channel",
@@ -118,7 +120,7 @@ dependencies = [
 
 [[package]]
 name = "fusabi-plugin-runtime"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "dashmap",
  "fusabi-host",

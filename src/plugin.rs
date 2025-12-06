@@ -251,6 +251,9 @@ impl Plugin {
             format!("{}({})", function, args_str.join(", "))
         };
 
+        // Increment invocation count before borrowing engine
+        inner.info.invocation_count += 1;
+
         // Execute
         inner.info.invocation_count += 1;
 
