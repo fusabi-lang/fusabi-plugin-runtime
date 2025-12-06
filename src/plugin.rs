@@ -255,6 +255,8 @@ impl Plugin {
         inner.info.invocation_count += 1;
 
         // Execute
+        inner.info.invocation_count += 1;
+
         let engine = inner
             .engine
             .as_ref()

@@ -1,0 +1,51 @@
+# CODEOWNERS for fusabi-plugin-runtime
+#
+# This file defines who is responsible for reviewing changes to different parts
+# of the codebase. Code owners are automatically requested for review when
+# someone opens a pull request that modifies code that they own.
+#
+# More information: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Default owners for everything in the repo
+* @fusabi-lang/core-maintainers
+
+# Core runtime code
+/src/ @fusabi-lang/core-maintainers
+/src/runtime.rs @fusabi-lang/runtime-team
+/src/loader.rs @fusabi-lang/runtime-team
+/src/plugin.rs @fusabi-lang/runtime-team
+
+# Manifest and schema
+/src/manifest.rs @fusabi-lang/schema-team
+docs/versions/*/manifest-schema.md @fusabi-lang/schema-team
+
+# Hot reload and watcher
+/src/watcher.rs @fusabi-lang/hot-reload-team
+docs/versions/*/hot-reload.md @fusabi-lang/hot-reload-team
+
+# Security and capabilities
+/src/capabilities.rs @fusabi-lang/security-team
+docs/versions/*/capabilities.md @fusabi-lang/security-team
+docs/versions/*/host-profiles.md @fusabi-lang/security-team
+docs/versions/*/multi-process.md @fusabi-lang/security-team
+
+# Documentation
+/docs/ @fusabi-lang/docs-team
+/README.md @fusabi-lang/docs-team
+/CHANGELOG.md @fusabi-lang/core-maintainers
+
+# Release and CI/CD
+/.github/workflows/ @fusabi-lang/devops-team
+/docs/RELEASE.md @fusabi-lang/devops-team
+/Cargo.toml @fusabi-lang/core-maintainers
+
+# Tests
+/tests/ @fusabi-lang/qa-team
+/src/**/tests/ @fusabi-lang/qa-team
+
+# Examples
+/examples/ @fusabi-lang/docs-team
+
+# Build configuration
+/Cargo.toml @fusabi-lang/core-maintainers
+/Cargo.lock @fusabi-lang/core-maintainers
