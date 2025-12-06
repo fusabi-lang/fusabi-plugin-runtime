@@ -85,3 +85,78 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.75
       - uses: Swatinem/rust-cache@v2
       - run: cargo check --all-features
+
+  doc-check:
+    name: Documentation Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check required documentation files
+        run: |
+          echo "Checking documentation structure..."
+
+          # Check top-level docs
+          for file in docs/STRUCTURE.md docs/RELEASE.md; do
+            if [ ! -f "$file" ]; then
+              echo "Error: Missing required file: $file"
+              exit 1
+            fi
+          done
+
+          # Check vNEXT documentation
+          VNEXT_DIR="docs/versions/vNEXT"
+          REQUIRED_DOCS=(
+            "runtime-guide.md"
+            "capabilities.md"
+            "host-profiles.md"
+            "manifest-schema.md"
+            "hot-reload.md"
+            "multi-process.md"
+            "migration.md"
+          )
+
+          if [ ! -d "$VNEXT_DIR" ]; then
+            echo "Error: Missing vNEXT documentation directory"
+            exit 1
+          fi
+
+          for doc in "${REQUIRED_DOCS[@]}"; do
+            if [ ! -f "$VNEXT_DIR/$doc" ]; then
+              echo "Error: Missing required documentation: $VNEXT_DIR/$doc"
+              exit 1
+            fi
+          done
+
+          echo "✓ All required documentation files present"
+
+      - name: Check markdown syntax
+        uses: DavidAnson/markdownlint-action@v1
+        with:
+          files: 'docs/**/*.md'
+          config: '.markdownlint.json'
+        continue-on-error: true
+
+      - name: Check for broken internal links
+        run: |
+          echo "Checking for broken internal links..."
+
+          # Simple check for broken markdown links
+          find docs -name "*.md" -exec grep -H '\[.*\](.*\.md)' {} \; | while read -r line; do
+            file=$(echo "$line" | cut -d: -f1)
+            link=$(echo "$line" | grep -o '(\S*\.md)' | tr -d '()')
+
+            # Resolve relative links
+            dir=$(dirname "$file")
+            target="$dir/$link"
+
+            if [ ! -f "$target" ]; then
+              # Try from docs root
+              target="docs/$link"
+              if [ ! -f "$target" ]; then
+                echo "Warning: Broken link in $file: $link"
+              fi
+            fi
+          done
+
+          echo "✓ Internal link check complete"

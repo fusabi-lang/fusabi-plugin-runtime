@@ -174,6 +174,27 @@ let config = LoaderConfig::new()
 // Plugin requiring 0.19.0 will fail to load
 ```
 
+## Documentation
+
+Comprehensive documentation is available in versioned format:
+
+- **[Runtime Guide](docs/versions/vNEXT/runtime-guide.md)** - Complete guide for using the plugin runtime
+- **[Capabilities System](docs/versions/vNEXT/capabilities.md)** - Capability enforcement and security
+- **[Host Profiles](docs/versions/vNEXT/host-profiles.md)** - Terminal, observability, and orchestration profiles
+- **[Manifest Schema](docs/versions/vNEXT/manifest-schema.md)** - Plugin manifest reference (UI vs daemon)
+- **[Hot Reload](docs/versions/vNEXT/hot-reload.md)** - Hot reload with debounce and backoff
+- **[Multi-Process Safety](docs/versions/vNEXT/multi-process.md)** - Multi-process sandboxing guide
+- **[Migration Guide](docs/versions/vNEXT/migration.md)** - Migrating between versions
+
+### For Contributors
+
+- **[Release Process](docs/RELEASE.md)** - How to cut a release
+- **[Documentation Structure](docs/STRUCTURE.md)** - Documentation organization
+
+## Contributing
+
+Contributions are welcome! Please see [CODEOWNERS](.github/CODEOWNERS) for review requirements.
+
 ## License
 
 Licensed under either of:
