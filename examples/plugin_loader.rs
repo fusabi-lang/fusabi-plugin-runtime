@@ -16,7 +16,7 @@ fn main() -> fusabi_plugin_runtime::Result<()> {
     let manifest = ManifestBuilder::new("example-plugin", "1.0.0")
         .description("An example plugin demonstrating the loader")
         .author("Example Author")
-        .api_version(ApiVersion::new(0, 18, 0))
+        .api_version(ApiVersion::new(0, 21, 0))
         .capability("time:read")
         .capability("logging")
         .source("example.fsx") // Would need to exist for actual loading
@@ -37,7 +37,7 @@ fn main() -> fusabi_plugin_runtime::Result<()> {
     println!("\n=== Loader Configuration ===");
 
     let loader_config = LoaderConfig::new()
-        .with_host_api_version(ApiVersion::new(0, 18, 0))
+        .with_host_api_version(ApiVersion::new(0, 21, 0))
         .with_auto_start(false)
         .with_strict_validation(true);
 
@@ -74,14 +74,14 @@ fn main() -> fusabi_plugin_runtime::Result<()> {
     // Demonstrate API version compatibility
     println!("\n=== API Version Compatibility ===");
 
-    let host_v = ApiVersion::new(0, 18, 5);
-    let plugin_v1 = ApiVersion::new(0, 18, 0);
-    let plugin_v2 = ApiVersion::new(0, 19, 0);
+    let host_v = ApiVersion::new(0, 21, 5);
+    let plugin_v1 = ApiVersion::new(0, 21, 0);
+    let plugin_v2 = ApiVersion::new(0, 22, 0);
     let plugin_v3 = ApiVersion::new(1, 0, 0);
 
     println!("Host version: {}", host_v);
-    println!("Plugin 0.18.0 compatible: {}", host_v.is_compatible_with(&plugin_v1));
-    println!("Plugin 0.19.0 compatible: {}", host_v.is_compatible_with(&plugin_v2));
+    println!("Plugin 0.21.0 compatible: {}", host_v.is_compatible_with(&plugin_v1));
+    println!("Plugin 0.22.0 compatible: {}", host_v.is_compatible_with(&plugin_v2));
     println!("Plugin 1.0.0 compatible: {}", host_v.is_compatible_with(&plugin_v3));
 
     // Show manifest serialization

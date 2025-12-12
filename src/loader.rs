@@ -353,7 +353,7 @@ mod tests {
     fn test_api_version_check() {
         let loader = PluginLoader::new(
             LoaderConfig::new()
-                .with_host_api_version(ApiVersion::new(0, 18, 0))
+                .with_host_api_version(ApiVersion::new(0, 21, 0))
                 .with_auto_start(false),
         )
         .unwrap();

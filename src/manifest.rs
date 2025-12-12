@@ -23,7 +23,7 @@ impl ApiVersion {
         Self { major, minor, patch }
     }
 
-    /// Parse from a string like "0.18.0".
+    /// Parse from a string like "0.21.0".
     pub fn parse(s: &str) -> Result<Self> {
         let parts: Vec<&str> = s.split('.').collect();
         if parts.len() < 2 {
@@ -60,7 +60,7 @@ impl Default for ApiVersion {
     fn default() -> Self {
         Self {
             major: 0,
-            minor: 18,
+            minor: 21,
             patch: 0,
         }
     }
@@ -380,9 +380,9 @@ mod tests {
 
     #[test]
     fn test_api_version_parse() {
-        let v = ApiVersion::parse("0.18.5").unwrap();
+        let v = ApiVersion::parse("0.21.5").unwrap();
         assert_eq!(v.major, 0);
-        assert_eq!(v.minor, 18);
+        assert_eq!(v.minor, 21);
         assert_eq!(v.patch, 5);
 
         let v = ApiVersion::parse("1.0").unwrap();
@@ -393,9 +393,9 @@ mod tests {
 
     #[test]
     fn test_api_version_compatibility() {
-        let v1 = ApiVersion::new(0, 18, 0);
-        let v2 = ApiVersion::new(0, 18, 5);
-        let v3 = ApiVersion::new(0, 19, 0);
+        let v1 = ApiVersion::new(0, 21, 0);
+        let v2 = ApiVersion::new(0, 21, 5);
+        let v3 = ApiVersion::new(0, 22, 0);
         let v4 = ApiVersion::new(1, 0, 0);
 
         // Same version compatible
@@ -462,7 +462,7 @@ mod tests {
 name = "my-plugin"
 version = "1.0.0"
 description = "A sample plugin"
-api-version = { major = 0, minor = 18, patch = 0 }
+api-version = { major = 0, minor = 21, patch = 0 }
 capabilities = ["fs:read", "time:read"]
 source = "main.fsx"
 exports = ["init", "run"]

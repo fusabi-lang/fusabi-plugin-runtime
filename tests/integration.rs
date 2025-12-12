@@ -29,7 +29,7 @@ fn test_manifest_creation() {
         .description("Test plugin")
         .author("Test Author")
         .license("MIT")
-        .api_version(ApiVersion::new(0, 18, 0))
+        .api_version(ApiVersion::new(0, 21, 0))
         .capability("fs:read")
         .capability("time:read")
         .source("main.fsx")
@@ -69,17 +69,17 @@ fn test_manifest_validation() {
 
 #[test]
 fn test_api_version_compatibility() {
-    let host = ApiVersion::new(0, 18, 5);
-    let compatible_same_minor = ApiVersion::new(0, 18, 0);
-    let compatible_older_minor = ApiVersion::new(0, 17, 0); // backward compatible
-    let incompatible_newer_minor = ApiVersion::new(0, 19, 0); // requires newer host
+    let host = ApiVersion::new(0, 21, 5);
+    let compatible_same_minor = ApiVersion::new(0, 21, 0);
+    let compatible_older_minor = ApiVersion::new(0, 20, 0); // backward compatible
+    let incompatible_newer_minor = ApiVersion::new(0, 22, 0); // requires newer host
     let incompatible_major = ApiVersion::new(1, 0, 0);
 
     // Same minor version - compatible
     assert!(host.is_compatible_with(&compatible_same_minor));
-    // Older minor version - backward compatible (plugin for 0.17 works on 0.18 host)
+    // Older minor version - backward compatible (plugin for 0.20 works on 0.21 host)
     assert!(host.is_compatible_with(&compatible_older_minor));
-    // Newer minor version - incompatible (plugin for 0.19 won't work on 0.18 host)
+    // Newer minor version - incompatible (plugin for 0.22 won't work on 0.21 host)
     assert!(!host.is_compatible_with(&incompatible_newer_minor));
     // Different major version - incompatible
     assert!(!host.is_compatible_with(&incompatible_major));
@@ -200,7 +200,7 @@ fn test_registry_stats() {
 #[test]
 fn test_loader_config() {
     let config = LoaderConfig::new()
-        .with_host_api_version(ApiVersion::new(0, 18, 0))
+        .with_host_api_version(ApiVersion::new(0, 21, 0))
         .with_auto_start(false)
         .with_strict_validation(true);
 
@@ -234,7 +234,7 @@ mod serde_tests {
     fn test_manifest_toml_roundtrip() {
         let manifest = ManifestBuilder::new("toml-test", "1.0.0")
             .description("Test manifest")
-            .api_version(ApiVersion::new(0, 18, 0))
+            .api_version(ApiVersion::new(0, 21, 0))
             .capability("fs:read")
             .source("main.fsx")
             .export("main")

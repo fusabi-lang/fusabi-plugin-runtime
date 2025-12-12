@@ -80,13 +80,13 @@ let loader = PluginLoader::new(config)?;
 **Before (v0.1.0)**:
 ```toml
 # API version as string
-api_version = "0.18.0"
+api_version = "0.21.0"
 ```
 
 **After (vNEXT)**:
 ```toml
 # API version as structured object
-api-version = { major = 0, minor = 18, patch = 0 }
+api-version = { major = 0, minor = 21, patch = 0 }
 ```
 
 **Migration Script**:
@@ -307,7 +307,7 @@ fn create_loader() -> Result<PluginLoader> {
 ```toml
 name = "my-plugin"
 version = "1.0.0"
-api_version = "0.18.0"
+api_version = "0.21.0"
 capabilities = ["fs:read"]
 source = "main.fsx"
 ```
@@ -316,7 +316,7 @@ source = "main.fsx"
 ```toml
 name = "my-plugin"
 version = "1.0.0"
-api-version = { major = 0, minor = 18, patch = 0 }
+api-version = { major = 0, minor = 21, patch = 0 }
 capabilities = ["fs:read"]
 source = "main.fsx"
 
