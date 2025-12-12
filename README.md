@@ -47,7 +47,7 @@ Plugins are defined by a TOML manifest:
 name = "my-plugin"
 version = "1.0.0"
 description = "Example plugin"
-api-version = { major = 0, minor = 18, patch = 0 }
+api-version = { major = 0, minor = 21, patch = 0 }
 
 # Required capabilities
 capabilities = ["fs:read", "net:request"]
@@ -169,9 +169,9 @@ Plugins declare a required API version. The runtime checks compatibility:
 use fusabi_plugin_runtime::{LoaderConfig, ApiVersion};
 
 let config = LoaderConfig::new()
-    .with_host_api_version(ApiVersion::new(0, 18, 0));
+    .with_host_api_version(ApiVersion::new(0, 21, 0));
 
-// Plugin requiring 0.19.0 will fail to load
+// Plugin requiring 0.22.0 will fail to load
 ```
 
 ## Documentation

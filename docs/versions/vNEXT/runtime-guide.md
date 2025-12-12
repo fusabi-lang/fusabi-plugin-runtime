@@ -55,7 +55,7 @@ Example manifest:
 name = "my-plugin"
 version = "1.0.0"
 description = "Example plugin"
-api-version = { major = 0, minor = 18, patch = 0 }
+api-version = { major = 0, minor = 21, patch = 0 }
 capabilities = ["fs:read", "net:request"]
 source = "main.fsx"
 exports = ["init", "process", "cleanup"]
@@ -201,7 +201,7 @@ use fusabi_plugin_runtime::{LoaderConfig, ApiVersion};
 use fusabi_host::{Capabilities, Limits, EngineConfig};
 
 let config = LoaderConfig::new()
-    .with_host_api_version(ApiVersion::new(0, 18, 0))
+    .with_host_api_version(ApiVersion::new(0, 21, 0))
     .with_engine_config(
         EngineConfig::default()
             .with_capabilities(Capabilities::safe_defaults())
