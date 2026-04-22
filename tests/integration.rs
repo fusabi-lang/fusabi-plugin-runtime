@@ -1,13 +1,8 @@
 //! Integration tests for fusabi-plugin-runtime.
 
 use fusabi_plugin_runtime::{
-    LifecycleState,
-    LoaderConfig, PluginLoader,
-    ApiVersion, Dependency, Manifest, ManifestBuilder,
-    Plugin, PluginHandle, PluginInfo,
-    PluginRegistry, RegistryConfig,
-    PluginRuntime, RuntimeConfig,
-    Error,
+    ApiVersion, Error, LifecycleState, LoaderConfig, Manifest, ManifestBuilder, Plugin,
+    PluginHandle, PluginRegistry, PluginRuntime, RegistryConfig, RuntimeConfig,
 };
 
 // Helper to create test plugins
@@ -264,7 +259,7 @@ mod serde_tests {
 
 #[cfg(feature = "watch")]
 mod watch_tests {
-    use super::*;
+
     use fusabi_plugin_runtime::{PluginWatcher, WatchConfig, WatchEvent};
     use std::path::PathBuf;
     use std::time::Duration;

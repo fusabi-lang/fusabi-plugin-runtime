@@ -1,13 +1,12 @@
 //! Plugin registry for managing loaded plugins.
 
-use std::collections::HashMap;
 use std::sync::Arc;
 
 use dashmap::DashMap;
 
 use crate::error::{Error, Result};
 use crate::lifecycle::{LifecycleHooks, LifecycleState};
-use crate::plugin::{Plugin, PluginHandle, PluginInfo};
+use crate::plugin::{PluginHandle, PluginInfo};
 
 /// Configuration for the plugin registry.
 #[derive(Debug, Clone)]
@@ -187,8 +186,10 @@ impl PluginRegistry {
 
     /// Get registry statistics.
     pub fn stats(&self) -> RegistryStats {
-        let mut stats = RegistryStats::default();
-        stats.total = self.plugins.len();
+        let mut stats = RegistryStats {
+            total: self.plugins.len(),
+            ..Default::default()
+        };
 
         for entry in self.plugins.iter() {
             match entry.state() {
@@ -269,13 +270,7 @@ impl PluginRegistry {
     pub fn find_by_tag(&self, tag: &str) -> Vec<PluginHandle> {
         self.plugins
             .iter()
-            .filter(|r| {
-                r.value()
-                    .inner()
-                    .manifest()
-                    .tags
-                    .contains(&tag.to_string())
-            })
+            .filter(|r| r.value().inner().manifest().tags.contains(&tag.to_string()))
             .map(|r| r.value().clone())
             .collect()
     }
@@ -333,6 +328,7 @@ impl Drop for PluginRegistry {
 mod tests {
     use super::*;
     use crate::manifest::ManifestBuilder;
+    use crate::plugin::Plugin;
 
     fn create_test_plugin(name: &str) -> PluginHandle {
         let manifest = ManifestBuilder::new(name, "1.0.0")

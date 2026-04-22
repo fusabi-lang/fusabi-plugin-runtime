@@ -50,10 +50,10 @@ mod watcher;
 mod metrics;
 
 pub use error::{Error, Result};
-pub use lifecycle::{PluginLifecycle, LifecycleState, LifecycleHooks};
-pub use loader::{PluginLoader, LoaderConfig};
-pub use manifest::{Manifest, ManifestBuilder, ApiVersion, Dependency};
-pub use plugin::{Plugin, PluginInfo, PluginHandle};
+pub use lifecycle::{LifecycleHooks, LifecycleState, PluginLifecycle};
+pub use loader::{LoaderConfig, PluginLoader};
+pub use manifest::{ApiVersion, Dependency, Manifest, ManifestBuilder};
+pub use plugin::{Plugin, PluginHandle, PluginInfo};
 pub use registry::{PluginRegistry, RegistryConfig};
 pub use runtime::{PluginRuntime, RuntimeConfig};
 
@@ -61,12 +61,10 @@ pub use runtime::{PluginRuntime, RuntimeConfig};
 pub use watcher::{PluginWatcher, WatchConfig, WatchEvent};
 
 #[cfg(feature = "metrics-prometheus")]
-pub use metrics::{PluginMetrics, MetricsConfig};
+pub use metrics::{MetricsConfig, PluginMetrics};
 
 // Re-export key types from fusabi-host for convenience
-pub use fusabi_host::{
-    Capabilities, Capability, Limits, Value, Error as HostError,
-};
+pub use fusabi_host::{Capabilities, Capability, Error as HostError, Limits, Value};
 
 /// Crate version for compatibility checks.
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");

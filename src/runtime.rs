@@ -6,7 +6,7 @@ use std::sync::Arc;
 use parking_lot::RwLock;
 
 use crate::error::{Error, Result};
-use crate::lifecycle::{LifecycleHooks, LifecycleState};
+use crate::lifecycle::LifecycleHooks;
 use crate::loader::{LoaderConfig, PluginLoader};
 use crate::plugin::PluginHandle;
 use crate::registry::{PluginRegistry, RegistryConfig, RegistryStats};
@@ -316,7 +316,7 @@ impl PluginRuntime {
     /// Shutdown the runtime.
     pub fn shutdown(&self) {
         // Stop all running plugins
-        self.stop_all();
+        let _ = self.stop_all();
 
         // Unload all
         self.registry.unload_all();
@@ -371,7 +371,9 @@ mod tests {
 // glob is an optional dependency for discovery
 #[cfg(feature = "serde")]
 mod glob {
-    pub fn glob(pattern: &str) -> std::io::Result<impl Iterator<Item = std::io::Result<std::path::PathBuf>>> {
+    pub fn glob(
+        _pattern: &str,
+    ) -> std::io::Result<impl Iterator<Item = std::io::Result<std::path::PathBuf>>> {
         // Simplified glob implementation for testing
         // In production, would use the actual glob crate
         Ok(std::iter::empty())

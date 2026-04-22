@@ -6,7 +6,7 @@
 //! Run with: cargo run --example hot_reload --features "serde,watch"
 
 use fusabi_plugin_runtime::{
-    PluginRegistry, RegistryConfig, PluginWatcher, WatchConfig, WatchEvent,
+    PluginRegistry, PluginWatcher, RegistryConfig, WatchConfig, WatchEvent,
 };
 use std::path::PathBuf;
 use std::time::Duration;

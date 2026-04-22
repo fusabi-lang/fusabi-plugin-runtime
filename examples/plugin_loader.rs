@@ -1,9 +1,7 @@
 //! Example demonstrating plugin loading and execution.
 
 use fusabi_plugin_runtime::{
-    LoaderConfig, PluginLoader,
-    ApiVersion, ManifestBuilder,
-    PluginRegistry, RegistryConfig,
+    ApiVersion, LoaderConfig, ManifestBuilder, PluginLoader, PluginRegistry, RegistryConfig,
 };
 
 fn main() -> fusabi_plugin_runtime::Result<()> {
@@ -47,7 +45,7 @@ fn main() -> fusabi_plugin_runtime::Result<()> {
     println!("  Strict validation: {}", loader_config.strict_validation);
 
     // Create loader
-    let loader = PluginLoader::new(loader_config)?;
+    let _loader = PluginLoader::new(loader_config)?;
 
     // Note: In a real scenario, you would load from an actual file:
     // let plugin = loader.load_from_manifest("plugin.toml")?;
@@ -80,9 +78,18 @@ fn main() -> fusabi_plugin_runtime::Result<()> {
     let plugin_v3 = ApiVersion::new(1, 0, 0);
 
     println!("Host version: {}", host_v);
-    println!("Plugin 0.21.0 compatible: {}", host_v.is_compatible_with(&plugin_v1));
-    println!("Plugin 0.22.0 compatible: {}", host_v.is_compatible_with(&plugin_v2));
-    println!("Plugin 1.0.0 compatible: {}", host_v.is_compatible_with(&plugin_v3));
+    println!(
+        "Plugin 0.21.0 compatible: {}",
+        host_v.is_compatible_with(&plugin_v1)
+    );
+    println!(
+        "Plugin 0.22.0 compatible: {}",
+        host_v.is_compatible_with(&plugin_v2)
+    );
+    println!(
+        "Plugin 1.0.0 compatible: {}",
+        host_v.is_compatible_with(&plugin_v3)
+    );
 
     // Show manifest serialization
     println!("\n=== Manifest Serialization ===");

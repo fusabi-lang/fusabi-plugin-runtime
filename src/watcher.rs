@@ -6,7 +6,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 
-use notify::{Config, RecommendedWatcher, RecursiveMode, Watcher, Event, EventKind};
+use notify::{Config, Event, EventKind, RecommendedWatcher, RecursiveMode, Watcher};
 use parking_lot::RwLock;
 
 use crate::error::{Error, Result};
@@ -29,11 +29,7 @@ impl Default for WatchConfig {
         Self {
             debounce: Duration::from_millis(500),
             recursive: true,
-            extensions: vec![
-                "fsx".to_string(),
-                "fzb".to_string(),
-                "toml".to_string(),
-            ],
+            extensions: vec!["fsx".to_string(), "fzb".to_string(), "toml".to_string()],
             auto_reload: true,
         }
     }
@@ -269,8 +265,8 @@ impl PluginWatcher {
     // Internal methods
 
     fn watch_path_internal(&self, path: &Path) -> Result<()> {
-        if let Some(ref watcher) = self.watcher {
-            let mode = if self.config.recursive {
+        if let Some(ref _watcher) = self.watcher {
+            let _mode = if self.config.recursive {
                 RecursiveMode::Recursive
             } else {
                 RecursiveMode::NonRecursive
@@ -286,21 +282,18 @@ impl PluginWatcher {
 
     fn handle_event(state: &Arc<RwLock<WatchState>>, config: &WatchConfig, event: Event) {
         let watch_event = match event.kind {
-            EventKind::Create(_) => {
-                event.paths.first().map(|p| WatchEvent::Created {
-                    path: p.clone(),
-                })
-            }
-            EventKind::Modify(_) => {
-                event.paths.first().map(|p| WatchEvent::Modified {
-                    path: p.clone(),
-                })
-            }
-            EventKind::Remove(_) => {
-                event.paths.first().map(|p| WatchEvent::Removed {
-                    path: p.clone(),
-                })
-            }
+            EventKind::Create(_) => event
+                .paths
+                .first()
+                .map(|p| WatchEvent::Created { path: p.clone() }),
+            EventKind::Modify(_) => event
+                .paths
+                .first()
+                .map(|p| WatchEvent::Modified { path: p.clone() }),
+            EventKind::Remove(_) => event
+                .paths
+                .first()
+                .map(|p| WatchEvent::Removed { path: p.clone() }),
             _ => None,
         };
 

@@ -2,10 +2,7 @@
 
 use std::path::{Path, PathBuf};
 
-use fusabi_host::{
-    compile_source, compile_file, validate_bytecode, CompileOptions,
-    EngineConfig,
-};
+use fusabi_host::{compile_file, compile_source, validate_bytecode, CompileOptions, EngineConfig};
 
 use crate::error::{Error, Result};
 use crate::manifest::{ApiVersion, Manifest};
@@ -291,8 +288,9 @@ impl PluginLoader {
         // Add required capabilities
         let mut caps = config.capabilities.clone();
         for cap_name in &manifest.capabilities {
-            let cap = fusabi_host::Capability::from_name(cap_name)
-                .ok_or_else(|| Error::invalid_manifest(format!("unknown capability: {}", cap_name)))?;
+            let cap = fusabi_host::Capability::from_name(cap_name).ok_or_else(|| {
+                Error::invalid_manifest(format!("unknown capability: {}", cap_name))
+            })?;
             caps.grant(cap);
         }
         config.capabilities = caps;
@@ -332,10 +330,7 @@ mod tests {
 
     #[test]
     fn test_load_manifest() {
-        let loader = PluginLoader::new(
-            LoaderConfig::new().with_auto_start(false),
-        )
-        .unwrap();
+        let loader = PluginLoader::new(LoaderConfig::new().with_auto_start(false)).unwrap();
 
         let manifest = ManifestBuilder::new("test-plugin", "1.0.0")
             .source("test.fsx")

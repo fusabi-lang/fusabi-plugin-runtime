@@ -37,7 +37,10 @@ impl LifecycleState {
 
     /// Check if the plugin can be reloaded.
     pub fn can_reload(&self) -> bool {
-        matches!(self, Self::Initialized | Self::Running | Self::Stopped | Self::Error)
+        matches!(
+            self,
+            Self::Initialized | Self::Running | Self::Stopped | Self::Error
+        )
     }
 
     /// Check if the plugin is in a terminal state.
@@ -209,9 +212,12 @@ impl LifecycleEvent {
     }
 }
 
+/// Boxed lifecycle event handler.
+pub type LifecycleEventHandler = Box<dyn Fn(&LifecycleEvent) + Send + Sync>;
+
 /// Hooks for lifecycle events.
 pub struct LifecycleHooks {
-    handlers: Vec<Box<dyn Fn(&LifecycleEvent) + Send + Sync>>,
+    handlers: Vec<LifecycleEventHandler>,
 }
 
 impl LifecycleHooks {

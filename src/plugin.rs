@@ -139,8 +139,9 @@ impl Plugin {
         // Verify capabilities
         let caps = &engine_config.capabilities;
         for required_cap in &inner.manifest.capabilities {
-            let cap = fusabi_host::Capability::from_name(required_cap)
-                .ok_or_else(|| Error::invalid_manifest(format!("unknown capability: {}", required_cap)))?;
+            let cap = fusabi_host::Capability::from_name(required_cap).ok_or_else(|| {
+                Error::invalid_manifest(format!("unknown capability: {}", required_cap))
+            })?;
 
             if !caps.has(cap) {
                 return Err(Error::MissingCapability(required_cap.clone()));
@@ -148,8 +149,7 @@ impl Plugin {
         }
 
         // Create engine
-        let engine = Engine::new(engine_config)
-            .map_err(|e| Error::init_failed(e.to_string()))?;
+        let engine = Engine::new(engine_config).map_err(|e| Error::init_failed(e.to_string()))?;
 
         inner.engine = Some(engine);
         inner.info.state = LifecycleState::Initialized;
@@ -208,11 +208,11 @@ impl Plugin {
         let mut inner = self.inner.write();
 
         // Try to stop if running
-        if inner.info.state == LifecycleState::Running {
-            if inner.manifest.exports.contains(&"cleanup".to_string()) {
-                if let Some(ref engine) = inner.engine {
-                    let _ = engine.execute("cleanup()");
-                }
+        if inner.info.state == LifecycleState::Running
+            && inner.manifest.exports.contains(&"cleanup".to_string())
+        {
+            if let Some(ref engine) = inner.engine {
+                let _ = engine.execute("cleanup()");
             }
         }
 
@@ -236,9 +236,7 @@ impl Plugin {
         }
 
         // Check function is exported
-        if !inner.manifest.exports.contains(&function.to_string())
-            && function != "main"
-        {
+        if !inner.manifest.exports.contains(&function.to_string()) && function != "main" {
             return Err(Error::FunctionNotFound(function.to_string()));
         }
 
@@ -279,11 +277,9 @@ impl Plugin {
         let was_running = inner.info.state == LifecycleState::Running;
 
         // Stop if running
-        if was_running {
-            if inner.manifest.exports.contains(&"cleanup".to_string()) {
-                if let Some(ref engine) = inner.engine {
-                    let _ = engine.execute("cleanup()");
-                }
+        if was_running && inner.manifest.exports.contains(&"cleanup".to_string()) {
+            if let Some(ref engine) = inner.engine {
+                let _ = engine.execute("cleanup()");
             }
         }
 
@@ -309,7 +305,11 @@ impl Plugin {
 
     /// Check if the plugin exports a function.
     pub fn has_export(&self, name: &str) -> bool {
-        self.inner.read().manifest.exports.contains(&name.to_string())
+        self.inner
+            .read()
+            .manifest
+            .exports
+            .contains(&name.to_string())
     }
 
     /// Get all exported function names.
@@ -435,9 +435,7 @@ mod tests {
         let plugin = Plugin::new(manifest);
 
         // Initialize
-        plugin
-            .initialize(EngineConfig::default())
-            .unwrap();
+        plugin.initialize(EngineConfig::default()).unwrap();
         assert_eq!(plugin.state(), LifecycleState::Initialized);
 
         // Start
@@ -481,8 +479,7 @@ mod tests {
         let plugin = Plugin::new(manifest);
 
         // Missing capability should fail
-        let config = EngineConfig::default()
-            .with_capabilities(fusabi_host::Capabilities::none());
+        let config = EngineConfig::default().with_capabilities(fusabi_host::Capabilities::none());
 
         assert!(plugin.initialize(config).is_err());
 

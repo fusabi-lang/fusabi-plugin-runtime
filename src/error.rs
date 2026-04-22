@@ -2,7 +2,7 @@
 
 use thiserror::Error;
 
-/// Result type alias using [`Error`].
+/// Result type alias using [`enum@Error`].
 pub type Result<T> = std::result::Result<T, Error>;
 
 /// Errors that can occur during plugin operations.
@@ -165,9 +165,7 @@ impl Error {
     pub fn is_recoverable(&self) -> bool {
         matches!(
             self,
-            Self::PluginNotFound(_)
-                | Self::FunctionNotFound(_)
-                | Self::InvalidState { .. }
+            Self::PluginNotFound(_) | Self::FunctionNotFound(_) | Self::InvalidState { .. }
         )
     }
 
