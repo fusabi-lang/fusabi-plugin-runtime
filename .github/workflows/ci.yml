@@ -145,9 +145,9 @@ jobs:
           echo "✓ All required documentation files present"
 
       - name: Check markdown syntax
-        uses: DavidAnson/markdownlint-action@v1
+        uses: DavidAnson/markdownlint-cli2-action@v20
         with:
-          files: 'docs/**/*.md'
+          globs: 'docs/**/*.md'
           config: '.markdownlint.json'
         continue-on-error: true
 
