@@ -77,6 +77,20 @@ jobs:
         env:
           RUSTDOCFLAGS: -D warnings
 
+  aarch64:
+    name: aarch64 Linux (native)
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Check (default features)
+        run: cargo check
+      - name: Check (all features)
+        run: cargo check --all-features
+      - name: Test
+        run: cargo test --all-features
+
   msrv:
     name: MSRV (1.75)
     runs-on: ubuntu-latest
