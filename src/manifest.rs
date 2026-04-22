@@ -1,6 +1,7 @@
 //! Plugin manifest schema and validation.
 
 use std::collections::HashMap;
+#[cfg(feature = "serde")]
 use std::path::Path;
 
 use crate::error::{Error, Result};
@@ -20,7 +21,11 @@ pub struct ApiVersion {
 impl ApiVersion {
     /// Create a new API version.
     pub fn new(major: u32, minor: u32, patch: u32) -> Self {
-        Self { major, minor, patch }
+        Self {
+            major,
+            minor,
+            patch,
+        }
     }
 
     /// Parse from a string like "0.21.0".
@@ -36,23 +41,19 @@ impl ApiVersion {
         let minor = parts[1]
             .parse()
             .map_err(|_| Error::invalid_manifest(format!("invalid minor version: {}", s)))?;
-        let patch = parts
-            .get(2)
-            .map(|p| p.parse().unwrap_or(0))
-            .unwrap_or(0);
+        let patch = parts.get(2).map(|p| p.parse().unwrap_or(0)).unwrap_or(0);
 
-        Ok(Self { major, minor, patch })
+        Ok(Self {
+            major,
+            minor,
+            patch,
+        })
     }
 
     /// Check if this version is compatible with another.
     pub fn is_compatible_with(&self, other: &ApiVersion) -> bool {
         // Same major version required, minor must be >= other
         self.major == other.major && self.minor >= other.minor
-    }
-
-    /// Format as a string.
-    pub fn to_string(&self) -> String {
-        format!("{}.{}.{}", self.major, self.minor, self.patch)
     }
 }
 
@@ -312,7 +313,9 @@ impl ManifestBuilder {
         I: IntoIterator<Item = S>,
         S: Into<String>,
     {
-        self.manifest.capabilities.extend(caps.into_iter().map(Into::into));
+        self.manifest
+            .capabilities
+            .extend(caps.into_iter().map(Into::into));
         self
     }
 
@@ -346,7 +349,9 @@ impl ManifestBuilder {
         I: IntoIterator<Item = S>,
         S: Into<String>,
     {
-        self.manifest.exports.extend(exports.into_iter().map(Into::into));
+        self.manifest
+            .exports
+            .extend(exports.into_iter().map(Into::into));
         self
     }
 
