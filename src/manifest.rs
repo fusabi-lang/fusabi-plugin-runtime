@@ -1,6 +1,7 @@
 //! Plugin manifest schema and validation.
 
 use std::collections::HashMap;
+#[cfg(feature = "serde")]
 use std::path::Path;
 
 use crate::error::{Error, Result};
